@@ -17,7 +17,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
       - name: Install dependencies
         run: pnpm install
       - name: Typecheck against real DSH types
@@ -35,6 +34,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install helper dependencies
-        run: pip install typer pydantic
+        # core/__init__ imports llm_client, which requires httpx/openai at import time
+        run: pip install typer pydantic httpx openai python-dotenv
       - name: Run extract / inspect / assemble smoke tests
         run: python -m unittest discover -s test -v
