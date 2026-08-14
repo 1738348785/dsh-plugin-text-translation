@@ -1,0 +1,41 @@
+{
+  "name": "dsh-plugin-text-translation",
+  "version": "1.0.0",
+  "description": "Text & document localization plugin for DeepSeek Harness (DSH): lossless tag-protected extraction, batch slicing and assembly for translation workflows",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "python",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "translation",
+    "localization",
+    "mtool",
+    "renpy",
+    "rpgmaker"
+  ],
+  "author": "Antigravity Localization Team",
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6",
+    "@deepseek-ai/schemastery": "^3.18.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

@@ -1,0 +1,7 @@
+# DeepSeek Harness (DSH) Bundle Patch Configuration
+- insert:
+    - id: text-translation
+      name: dsh-plugin-text-translation
+      config:
+        pythonPath: python
+        batchSize: 25

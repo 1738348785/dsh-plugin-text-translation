@@ -1,0 +1,16 @@
+# Node
+node_modules/
+
+# Build artifacts (dist is committed: the plugin loads dist/index.js directly)
+*.tgz
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
