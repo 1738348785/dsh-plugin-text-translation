@@ -161,9 +161,12 @@ DSH 提供完整的子代理能力（`ctx.subagents` 服务 + 模型侧 `subagen
 `dist/` 已提交到仓库（插件运行时加载 `dist/index.js`，clone 即用）。修改源码后重新构建：
 
 ```bash
-npm install     # 安装 typescript 等开发依赖
+npm install     # 安装 typescript 等开发依赖（从公共 registry 下载，无需 npm 账号，与本插件是否发布到 npm 无关）
 npm run build   # tsc 编译到 dist/
 ```
+
+> 💡 实测确认：`npm install` 在本地 link 安装（junction）的插件目录上执行是安全的，
+> 不会破坏 `node_modules` 里的 junction 结构。
 
 ### 测试
 
