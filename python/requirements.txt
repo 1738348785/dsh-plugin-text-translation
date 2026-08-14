@@ -1,0 +1,18 @@
+# ========================================================
+# dsh-plugin-text-translation Python Engine Dependencies
+# ========================================================
+
+# 1. 核心必需依赖 (Core Dependencies: extract / inspect / assemble)
+typer>=0.9.0
+pydantic>=2.0.0
+
+# 2. 可选格式支持 (Optional Document Parsers - install as needed)
+# openpyxl>=3.1.0      # Excel (.xlsx) 表格解析与重构 (Translator++ 格式支持)
+# PyMuPDF>=1.24.0      # PDF 文档高精度文本层提取支持
+# python-docx>=1.1.0   # Word (.docx) 文档解析与重构支持
+# beautifulsoup4>=4.12.0 # HTML 文件解析支持
+
+# 3. 可选 LLM 流水线 (Standalone API Pipeline - UniversalLLMClient / MultiAgentTranslatorPipeline)
+# 插件本身不依赖这些；仅当需要绕过 DSH Agent、直接调用独立翻译流水线时安装：
+# openai>=1.40.0       # OpenAI 兼容 API 客户端 (DeepSeek / SiliconFlow / Ollama 等)
+# httpx>=0.27.0        # HTTP 客户端 (llm_client 顶层依赖)

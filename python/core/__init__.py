@@ -6,9 +6,7 @@ from .models import TranslationItem, GlossaryItem, PipelineEvent
 from .tag_protector import TagProtector
 from .extractor import UniversalExtractor
 from .chunker import SmartBatcher, TranslationBatch
-from .llm_client import UniversalLLMClient
 from .cache_manager import TranslationCacheManager
-from .pipeline import MultiAgentTranslatorPipeline
 
 __all__ = [
     "TranslationItem",
@@ -18,7 +16,14 @@ __all__ = [
     "UniversalExtractor",
     "SmartBatcher",
     "TranslationBatch",
-    "UniversalLLMClient",
     "TranslationCacheManager",
-    "MultiAgentTranslatorPipeline",
 ]
+
+# Optional LLM dependencies (only needed when running standalone API pipeline)
+try:
+    from .llm_client import UniversalLLMClient
+    from .pipeline import MultiAgentTranslatorPipeline
+
+    __all__.extend(["UniversalLLMClient", "MultiAgentTranslatorPipeline"])
+except ImportError:
+    pass

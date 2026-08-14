@@ -137,16 +137,22 @@ DSH 提供完整的子代理能力（`ctx.subagents` 服务 + 模型侧 `subagen
 
 ## 🐍 Python 依赖
 
-插件内置的 `python/local_helper.py` 需要：
+依赖清单见 `python/requirements.txt`，分三层：
 
-- **必需**：`typer`、`pydantic`（`pip install typer pydantic`）
-- **可选**（按需格式启用）：
+- **必需**（提取/遮罩/切片/组装全链路）：`typer`、`pydantic`
+  ```bash
+  pip install -r python/requirements.txt
+  ```
+- **可选 · 格式解析**（按需格式启用）：
   - XLSX → `openpyxl`
   - PDF → `PyMuPDF`
   - DOCX → `python-docx`
-  - HTML → `beautifulsoup4`、`markdown2`
+  - HTML → `beautifulsoup4`
+  - （Markdown / TXT / 字幕 / Ren'Py / JSON 等为纯文本解析，零额外依赖）
+- **可选 · 独立 LLM 流水线**（仅当绕过 DSH Agent、直接调用
+  `UniversalLLMClient` / `MultiAgentTranslatorPipeline` 时）：`openai`、`httpx`
 
-未安装可选依赖时，仅对应格式的提取会报错，其余功能不受影响。
+插件运行本身只依赖第一层；未装可选依赖时，仅对应功能报错，其余不受影响。
 
 ---
 
@@ -163,7 +169,7 @@ npm run build   # tsc 编译到 dist/
 
 ```bash
 # Python 引擎冒烟测试（extract / inspect / assemble 无损断言）
-pip install typer pydantic
+pip install -r python/requirements.txt
 python -m unittest discover -s test -v
 
 # TypeScript 类型检查（需先 npm install）
@@ -175,7 +181,8 @@ CI（GitHub Actions）会自动跑以上两项：`tsc --noEmit` 类型检查 + P
 
 ### 同步上游引擎
 
-`python/core/` 是 `multi_agent_translator` 引擎（非 LLM 部分）的随包快照。上游改动后运行：
+`python/core/` 是 `multi_agent_translator` 引擎的随包快照（LLM 相关模块为可选导入）。
+上游改动后运行：
 
 ```powershell
 # 默认：只同步 core/（local_helper.py 保留插件定制：UTF-8 输出修复 + inspect 命令）
