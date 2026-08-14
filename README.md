@@ -126,6 +126,9 @@ DSH 提供完整的子代理能力（`ctx.subagents` 服务 + 模型侧 `subagen
 2. **提取**：调用 `extract_text`（传 `output_json` 保存分块 JSON）；
 3. **并行翻译**：对每个批次分别启动一个子代理（`subagent`），或用一个
    `workflow` 脚本对全部批次做 fan-out 翻译，结果合并为一个 translations JSON；
+   > 💡 **子代理结果去重**：实测中子代理完成通知可能重复投递，主 Agent 可能把
+   > "重复通知"误当作新结果处理。建议在任务提示词中明确："子代理结果按 id 合并，
+   > 已合并的 id 直接忽略重复通知"。
 4. **回填**：调用 `assemble_text` 无损写回本地化文件。
 
 ---
@@ -152,6 +155,35 @@ DSH 提供完整的子代理能力（`ctx.subagents` 服务 + 模型侧 `subagen
 ```bash
 npm install     # 安装 typescript 等开发依赖
 npm run build   # tsc 编译到 dist/
+```
+
+### 测试
+
+```bash
+# Python 引擎冒烟测试（extract / inspect / assemble 无损断言）
+pip install typer pydantic
+python -m unittest discover -s test -v
+
+# TypeScript 类型检查（需先 npm install）
+npx tsc --noEmit
+```
+
+CI（GitHub Actions）会自动跑以上两项：`tsc --noEmit` 类型检查 + Python 3.11/3.13
+矩阵冒烟测试。
+
+### 同步上游引擎
+
+`python/core/` 是 `multi_agent_translator` 引擎（非 LLM 部分）的随包快照。上游改动后运行：
+
+```powershell
+# 默认：只同步 core/（local_helper.py 保留插件定制：UTF-8 输出修复 + inspect 命令）
+powershell -File scripts/sync-python-engine.ps1
+
+# 同时覆盖 local_helper.py（CLI 层有冲突时需手动合并）
+powershell -File scripts/sync-python-engine.ps1 -IncludeHelper
+
+# 上游不在默认位置时指定路径
+powershell -File scripts/sync-python-engine.ps1 -Source C:\path\to\multi_agent_translator
 ```
 
 ---
