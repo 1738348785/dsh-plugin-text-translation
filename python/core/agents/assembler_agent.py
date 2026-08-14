@@ -212,7 +212,7 @@ class AssemblerAgent:
                 idx = it.raw_metadata.get("index", it.id)
                 tc = it.raw_metadata.get("timecode", "00:00:00,000 --> 00:00:05,000")
                 text = it.translated_text or it.source_text
-                blocks.append(f"{idx}\n{tc}\n{text}\n")
+                blocks.append("\n".join((idx, tc, text)) + "\n")
             return "\n".join(blocks)
         elif ext == ".ass":
             lines = list(file_context.get("raw_lines", []))
@@ -233,7 +233,7 @@ class AssemblerAgent:
         for it in items:
             src = it.source_text.replace('"', r'\"').replace('\n', r'\n')
             tgt = (it.translated_text or "").replace('"', r'\"').replace('\n', r'\n')
-            out_lines.append(f'msgid "{src}"\nmsgstr "{tgt}"\n')
+            out_lines.append('msgid "{}"\nmsgstr "{}"\n'.format(src, tgt))
         return "\n".join(out_lines)
 
     @classmethod

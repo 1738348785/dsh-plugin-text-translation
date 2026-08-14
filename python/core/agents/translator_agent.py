@@ -69,13 +69,15 @@ CRITICAL RULES:
    ]
 """
 
+        glossary_section = f"Glossary / Proper Nouns Reference:\n{glossary_text}\n" if glossary_text else ""
+
         user_prompt = f"""
 Source Language: {source_lang}
 Target Language: {target_lang}
 
 {f"Style Guide / Tone: {style_guide}" if style_guide else ""}
 
-{f"Glossary / Proper Nouns Reference:\n{glossary_text}\n" if glossary_text else ""}
+{glossary_section}
 
 {context_text}
 
