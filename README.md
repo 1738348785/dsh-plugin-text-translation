@@ -79,7 +79,9 @@ dsh --profile demo --patch ./dsh-plugin-text-translation/cordis.patch.yml
 
 ---
 
-## ⚠️ 新 profile 初始化注意事项（实测经验）
+## ⚠️ 新 profile 初始化注意事项
+
+> 以下两条是 DSH 环境在创建新 profile 时的已知问题（与本插件无关），首次把插件装进新 profile 时可能遇到：
 
 1. **npm registry 的 `latest` tag 指错版本**：`@deepseek-ai/dsh-base` 的 `latest` 是旧版
    `0.0.1-rc.1`（其依赖 `dsh-fs-policy` 不存在于 registry），安装会失败。必须显式指定版本：
